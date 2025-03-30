@@ -5,10 +5,14 @@ import cookieParser from "cookie-parser";
 import compression from "compression";
 import cors from "cors";
 import dotenv from "dotenv";
+import connectDB from "./config/databse.config";
 
 dotenv.config();
 
 const app = express();
+
+// Connect DB
+connectDB();
 
 app.use(
   cors({
