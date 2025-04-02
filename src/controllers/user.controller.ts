@@ -8,7 +8,7 @@ import { RequestHandler } from "express";
 
 export const userController = {
   createUser: (): RequestHandler => async (req, res, next) => {
-    const { name, email, password } = req.body;
+    const { firstName, lastName, email, phoneNo, password } = req.body;
     try {
       const existingUser = await findUserByEmail(email);
       if (existingUser) {
@@ -20,10 +20,13 @@ export const userController = {
 
       // Create new user
       const newUser = await User.create({
-        name,
+        firstName,
+        lastName,
         email,
+        phoneNo,
         password: hashedPassword,
       });
+      //   console.log("user", newUser);
       respond<IUser>(res, newUser, HttpStatus.CREATED);
     } catch (error) {
       next(error);
@@ -44,7 +47,7 @@ export const userController = {
       if (!compare) {
         throw new BadRequestError("Invalid credentials");
       } else {
-        accesToken = JWT.encode({ id: existingUser.username });
+        accesToken = JWT.encode({ id: existingUser });
       }
       delete existingUser.password;
 
@@ -53,6 +56,9 @@ export const userController = {
         { accesToken, userData: existingUser },
         HttpStatus.OK
       );
-    } catch (error) {}
+    } catch (error) {
+      console.log("Login", error);
+      next(error);
+    }
   },
 };

@@ -5,4 +5,6 @@ export interface IProduct {
   category: string;
   quantity: number;
   imageUrl?: string;
+  createdBy: string;
+  available: boolean;
 }

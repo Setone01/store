@@ -31,8 +31,8 @@ export const authenticate = async (
     // Find the user based on the ID from the decoded token
     const user = await User.findById(decoded.id);
 
-    if (!user) {
-      return next(new NotAuthenticatedError("Invalid token"));
+    if (!user || user.role !== "admin") {
+      return next(new NotAuthenticatedError("Access denied"));
     }
 
     res.locals.user = user.toObject();

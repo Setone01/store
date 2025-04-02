@@ -32,6 +32,8 @@ const productSchema = new Schema<IProduct>(
       type: String,
       default: "",
     },
+    createdBy: { type: String, required: true },
+    available: { type: Boolean, default: true },
   },
   {
     timestamps: true,
