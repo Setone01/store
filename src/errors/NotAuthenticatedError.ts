@@ -1,6 +1,6 @@
 import HttpStatus from "http-status-codes";
 
-import ErrorHandler from "./errorHandler";
+import ErrorHandler from "./ErrorHandler";
 
 export class NotAuthenticatedError extends ErrorHandler {
   protected error_name = "not authenticated";

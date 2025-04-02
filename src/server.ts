@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import http from "http";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
@@ -6,6 +6,8 @@ import compression from "compression";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/databse.config";
+import helmet from "helmet";
+import userRouter from "./routes/user.route";
 
 dotenv.config();
 
@@ -21,8 +23,19 @@ app.use(
 );
 
 app.use(compression());
+app.use(helmet());
 app.use(cookieParser());
 app.use(bodyParser.json());
+
+app.get("/store", (req: Request, res: Response) =>
+  res.status(200).json({
+    status: "success",
+    message: "server is up and running",
+    data: null,
+  })
+);
+
+app.use("/store", userRouter);
 
 const server = http.createServer(app);
 

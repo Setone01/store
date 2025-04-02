@@ -8,6 +8,8 @@ const variables = {
   },
   AUTH: {
     rounds: Number(process.env.SALT_ROUNDS),
+    secret: process.env.JWT_SECRET,
+    jwtExpiryTime: process.env.JWT_EXPIRY_TIME,
   },
 };
 
