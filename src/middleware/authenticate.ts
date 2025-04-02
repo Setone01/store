@@ -6,7 +6,7 @@ import {
 } from "jsonwebtoken";
 import { NotAuthenticatedError } from "../errors";
 import { JWT } from "../utilities";
-import User from "@src/database/schema/user.schema";
+import User from "@src/database/model/user.model";
 
 export const authenticate = async (
   req: Request,

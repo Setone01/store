@@ -1,4 +1,4 @@
-import User from "@src/database/schema/user.schema";
+import User from "@src/database/model/user.model";
 import HttpStatus from "http-status-codes";
 import { BadRequestError, ConflictError } from "@src/errors";
 import type { IUser } from "@src/interface";

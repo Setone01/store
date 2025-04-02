@@ -1,11 +1,19 @@
-import Product from "@src/database/schema/product.schema";
+import Product from "@src/database/model/product.model";
 import HttpStatus from "http-status-codes";
-import { ConflictError, ForbiddenError } from "@src/errors";
+import {
+  ConflictError,
+  ForbiddenError,
+  ResourceNotFoundError,
+} from "@src/errors";
 import { IProduct } from "@src/interface";
 import { findOneProduct } from "@src/repository/product.repository";
 import { respond } from "@src/utilities";
 import { uploadImage } from "@src/utilities/cloudinary.utility";
 import { RequestHandler } from "express";
+import {
+  getAllProducts,
+  getProductById,
+} from "@src/repository/user.repository";
 
 export const productController = {
   createProduct: (): RequestHandler => async (req, res, next) => {
@@ -47,6 +55,30 @@ export const productController = {
       });
 
       respond<IProduct>(res, newProduct, HttpStatus.CREATED);
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  getAllProducts: (): RequestHandler => async (req, res, next) => {
+    try {
+      const products = await getAllProducts();
+      respond<IProduct[]>(res, products, HttpStatus.OK);
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  getProductById: (): RequestHandler => async (req, res, next) => {
+    const { productId } = req.params;
+
+    try {
+      const product = await getProductById(productId);
+      if (!product) {
+        throw new ResourceNotFoundError("Product not found");
+      }
+
+      respond<IProduct>(res, product, HttpStatus.OK);
     } catch (error) {
       next(error);
     }

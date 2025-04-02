@@ -1,4 +1,4 @@
-import Product from "@src/database/schema/product.schema";
+import Product from "@src/database/model/product.model";
 import { IProduct } from "@src/interface";
 
 export const findOneProduct = async (
