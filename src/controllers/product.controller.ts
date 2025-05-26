@@ -1,19 +1,25 @@
 import Product from "@src/database/model/product.model";
 import HttpStatus from "http-status-codes";
 import {
+  BadRequestError,
   ConflictError,
   ForbiddenError,
   ResourceNotFoundError,
 } from "@src/errors";
 import { IProduct } from "@src/interface";
-import { findOneProduct } from "@src/repository/product.repository";
+import {
+  findOneProduct,
+  getAllProducts,
+  getProductById,
+  updateProductById,
+} from "@src/repository/product.repository";
 import { respond } from "@src/utilities";
 import { uploadImage } from "@src/utilities/cloudinary.utility";
 import { RequestHandler } from "express";
-import {
-  getAllProducts,
-  getProductById,
-} from "@src/repository/user.repository";
+// import {
+//   getAllProducts,
+//   getProductById,
+// } from "@src/repository/user.repository";
 
 export const productController = {
   createProduct: (): RequestHandler => async (req, res, next) => {
@@ -81,6 +87,22 @@ export const productController = {
       respond<IProduct>(res, product, HttpStatus.OK);
     } catch (error) {
       next(error);
+    }
+  },
+
+  updateProduct: (): RequestHandler => async (req, res, next) => {
+    const { id } = req.params;
+    const updateData = req.body;
+
+    try {
+      const updatedProduct = await updateProductById(id, updateData);
+      if (!updatedProduct) {
+        throw new ConflictError("Product not found");
+      }
+      respond<IProduct>(res, updateData, HttpStatus.OK);
+    } catch (error) {
+      console.error("Error updating product", error);
+      throw new BadRequestError("Failed to update product");
     }
   },
 };

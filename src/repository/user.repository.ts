@@ -12,10 +12,3 @@ export const findUserByEmail = async (email: string): Promise<IUser | null> => {
   return foundUser;
 };
 
-export const getAllProducts = async () => {
-  return Product.find();
-};
-
-export const getProductById = async (id: string) => {
-  return await Product.findById(id);
-};

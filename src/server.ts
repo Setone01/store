@@ -8,6 +8,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/databse.config";
 import helmet from "helmet";
 import userRouter from "./routes/user.route";
+import productRouter from "./routes/product.route";
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ app.get("/store", (req: Request, res: Response) =>
 );
 
 app.use("/store", userRouter);
+app.use("/store", productRouter);
 
 const server = http.createServer(app);
 

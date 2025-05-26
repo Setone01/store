@@ -7,3 +7,22 @@ export const findOneProduct = async (
   const product = await Product.findOne(filter);
   return product;
 };
+
+export const getAllProducts = async () => {
+  return Product.find();
+};
+
+export const getProductById = async (id: string) => {
+  return await Product.findById(id);
+};
+
+export const updateProductById = async (
+  id: string,
+  updateData: Partial<typeof Product>
+) => {
+  const updatedProduct = await Product.findByIdAndUpdate(id, updateData, {
+    new: true,
+    runValidators: true,
+  });
+  return updatedProduct;
+};

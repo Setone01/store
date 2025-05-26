@@ -19,3 +19,10 @@ productRouter.get(
   "/product/get-product-by-id/:productId",
   productController.getProductById()
 );
+
+productRouter.patch(
+  "/product/update-product/:id",
+  productController.updateProduct
+);
+
+export default productRouter;
